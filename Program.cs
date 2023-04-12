@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace InvisibleManTUN
 {
@@ -6,7 +7,19 @@ namespace InvisibleManTUN
     {
         private static void Main(string[] args)
         {
-            Console.WriteLine("Hello Invisible Man TUN!");
+            PrintHeadLines();
+
+            void PrintHeadLines()
+            {
+                Console.WriteLine("Invisible Man TUN service");
+                Console.WriteLine($"version {GetCurrentReleaseVersion()}\n");
+            }
+
+            string GetCurrentReleaseVersion() 
+            {
+                Version version = Assembly.GetExecutingAssembly().GetName().Version;
+                return $"{version.Major}.{version.Minor}.{version.Build}";
+            }
         }
     }
 }
