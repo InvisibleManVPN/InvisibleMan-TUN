@@ -39,7 +39,7 @@ namespace InvisibleManTUN
 
                 try
                 {
-                    return Convert.ToInt32(GetPortFlag().Split("=")[1]);
+                    return Convert.ToInt32(GetPortFlag().Split("=").Last());
                 }
                 catch
                 {
