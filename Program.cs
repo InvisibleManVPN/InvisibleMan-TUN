@@ -4,7 +4,9 @@ using System.Reflection;
 
 namespace InvisibleManTUN
 {
+    using Foundation;
     using Managers;
+    using Values;
 
     public class Program
     {
@@ -34,21 +36,22 @@ namespace InvisibleManTUN
 
             int GetPort()
             {
+                Parser parser = new Parser(validFlags: new[] { Global.PORT });
+                parser.Parse(args);
+
                 if (!IsPortFlagExists())
                     return -1;
 
                 try
                 {
-                    return Convert.ToInt32(GetPortFlag().Split("=").Last());
+                    return Convert.ToInt32(parser.GetFlag(Global.PORT).Value);
                 }
                 catch
                 {
                     return -1;
                 }
 
-                bool IsPortFlagExists() => GetPortFlag() != null;
-
-                string GetPortFlag() => args.FirstOrDefault(argument => argument.StartsWith("-port="));
+                bool IsPortFlagExists() => parser.GetFlag(Global.PORT) != null;
             }
         }
     }
