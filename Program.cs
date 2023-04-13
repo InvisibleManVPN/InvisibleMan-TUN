@@ -3,16 +3,25 @@ using System.Reflection;
 
 namespace InvisibleManTUN
 {
+    using Managers;
+
     public class Program
     {
         private static void Main(string[] args)
         {
             PrintHeadLines();
+            InitializeServiceManager();
 
             void PrintHeadLines()
             {
                 Console.WriteLine("Invisible Man TUN service");
                 Console.WriteLine($"version {GetCurrentReleaseVersion()}\n");
+            }
+
+            void InitializeServiceManager()
+            {
+                ServiceManager serviceManager = new ServiceManager();
+                serviceManager.Initialize();
             }
 
             string GetCurrentReleaseVersion() 
