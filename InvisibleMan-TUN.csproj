@@ -4,9 +4,9 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
     <RootNamespace>InvisibleManTUN</RootNamespace>
-    <AssemblyName>Invisible Man TUN</AssemblyName>
-    <Product>Invisible Man TUN</Product>
-    <PackageId>Invisible Man TUN</PackageId>
+    <AssemblyName>InvisibleMan-TUN</AssemblyName>
+    <Product>InvisibleMan-TUN</Product>
+    <PackageId>InvisibleMan-TUN</PackageId>
     <Company>Invisible Man</Company>
     <Copyright>Copyright (C) 2023 Invisible Man</Copyright>
     <Version>0.1.0.0</Version>
