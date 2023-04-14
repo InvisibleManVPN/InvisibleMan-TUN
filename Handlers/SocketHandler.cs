@@ -41,9 +41,10 @@ namespace InvisibleManTUN.Handlers
                 while (true)
                 {
                     Console.WriteLine(Message.WAITING_FOR_CONNECTION);
-                    
                     Socket clientSocket = listener.Accept();
-                    ReadCommand(clientSocket);
+
+                    Console.WriteLine(Message.CLIENT_WAS_CONNECTED);
+                    Listen(clientSocket);
                 }
             }
             catch (Exception exception)
@@ -51,24 +52,46 @@ namespace InvisibleManTUN.Handlers
                 Console.WriteLine(exception.Message);
             }
 
-            void ReadCommand(Socket socket)
+            void Listen(Socket socket)
             {
-                byte[] bytes = new byte[1024];
-                string command = "";
-
-                while (true)
+                try
                 {
-                    int bytesCount = socket.Receive(bytes);
-                    command += Encoding.ASCII.GetString(bytes, 0, bytesCount);
+                    byte[] bytes = new byte[1024];
+                    string command = "";
 
-                    if (command.IndexOf("<EOF>") > -1)
+                    while (true)
+                    {
+                        int bytesCount = socket.Receive(bytes);
+                        command += Encoding.ASCII.GetString(bytes, 0, bytesCount);
+
+                        if (command.IndexOf(Command.EOF) > -1)
+                            break;
+                    }
+
+                    Console.WriteLine($"Command -> '{command}'");
+                    Execute(command);
+
+                    socket.Shutdown(SocketShutdown.Both);
+                    socket.Close();
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+
+            void Execute(string command)
+            {
+                switch(command)
+                {
+                    case Command.ENABLE:
+                        //Enable tunneling
+                        break;
+                    case Command.DISABLE:
+                        //Disable tunneling
+                    default:
                         break;
                 }
-
-                Console.WriteLine($"Command -> '{command}'");
-
-                socket.Shutdown(SocketShutdown.Both);
-                socket.Close();
             }
         }
     }
