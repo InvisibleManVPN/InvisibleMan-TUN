@@ -68,6 +68,16 @@ namespace InvisibleManTUN.Foundation
             }
         }
 
+        public void StopSystemProcesses(string processName)
+        {
+            Process[] runningProcesses = Process.GetProcessesByName(processName);
+
+            foreach(Process process in runningProcesses)
+            {
+                process.Kill();
+            }
+        }
+
         private void AddProcess(Process process, string processName)
         {
             processes.Add(processName, process);
