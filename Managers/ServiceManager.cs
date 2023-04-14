@@ -40,12 +40,20 @@ namespace InvisibleManTUN.Managers
         private void RegisterHandlers()
         {
             handlersManager = new HandlersManager();
+
             handlersManager.AddHandler(new SocketHandler());
+            handlersManager.AddHandler(new TunnelHandler());
         }
 
         private void SetupHandlers()
         {
-            handlersManager.GetHandler<SocketHandler>().Setup(getPort);
+            TunnelHandler tunnelHandler = handlersManager.GetHandler<TunnelHandler>();
+
+            handlersManager.GetHandler<SocketHandler>().Setup(
+                getPort: getPort,
+                onStartTunneling: tunnelHandler.Start,
+                onStopTunneling: tunnelHandler.Stop
+            );
         }
 
         private void StartService()
