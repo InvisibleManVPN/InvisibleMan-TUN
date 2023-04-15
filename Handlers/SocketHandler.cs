@@ -56,9 +56,9 @@ namespace InvisibleManTUN.Handlers
                     Listen(clientSocket);
                 }
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                Console.WriteLine(exception.Message);
+                Console.WriteLine(ex.Message);
             }
 
             void Listen(Socket socket)
