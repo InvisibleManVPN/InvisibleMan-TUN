@@ -11,8 +11,8 @@ import (
 
 var cmd *exec.Cmd
 
-//export StartTun
-func StartTun(device *C.char, proxy *C.char) {
+//export StartTunnel
+func StartTunnel(device *C.char, proxy *C.char) {
 	args := []string{
 		"-device", C.GoString(device),
 		"-proxy", C.GoString(proxy),
@@ -27,8 +27,8 @@ func StartTun(device *C.char, proxy *C.char) {
 	}
 }
 
-//export StopTun
-func StopTun() {
+//export StopTunnel
+func StopTunnel() {
 	dll, err := windows.LoadDLL("kernel32.dll")
 	if err != nil {
 		fmt.Println("error | failed to load dll >", err)

@@ -13,5 +13,5 @@ func RunTest(device string, proxy string) {
 	fmt.Println("device:", device)
 	fmt.Println("proxy:", proxy)
 
-	StartTun(cdevice, cproxy)
+	StartTunnel(cdevice, cproxy)
 }
