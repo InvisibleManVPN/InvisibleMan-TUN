@@ -9,8 +9,8 @@
     <PackageId>InvisibleMan-TUN</PackageId>
     <Company>Invisible Man</Company>
     <Copyright>Copyright (C) 2023 Invisible Man</Copyright>
-    <Version>0.1.0.0</Version>
-    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <Version>0.2.0.0</Version>
+    <AssemblyVersion>0.2.0.0</AssemblyVersion>
     <ApplicationManifest>App.manifest</ApplicationManifest>
     <Nullable>enable</Nullable>
     <NoWarn>8600;8602;8603;8604;8618</NoWarn>
