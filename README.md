@@ -25,12 +25,18 @@ This service creates the network interface and sets routes automatically.
     ```
     cd InvisibleMan-TUN
     ```
-  - Download one of the versions of [tun2socks](https://github.com/xjasonlyu/tun2socks/releases/latest) based on your OS and extract it to `/InvisibleMan-TUN` directory.
+  - Download one of the versions of [tun2socks](https://github.com/xjasonlyu/tun2socks/releases/latest) based on your OS and extract it to `/InvisibleMan-TUN` and `/TUN-Wrapper` directories.
     <br/>
     **NOTE:** After extracting the file, change its name to `tun2socks.exe`.
-  - Download [wintun](https://www.wintun.net), extract it and copy one of versions based on your OS to `/InvisibleMan-TUN` directory.
+  - Download [wintun](https://www.wintun.net), extract it and copy one of versions based on your OS to `/InvisibleMan-TUN` and `/TUN-Wrapper` directories.
     <br/>
     **NOTE:** Make sure the dll file name is `wintun.dll`.
+  - Make `tun.dll` file and copy to the `/InvisibleMan-TUN` directory:
+    ```
+    cd TUN-Wrapper
+    go build --buildmode=c-shared -o tun.dll -trimpath -ldflags "-s -w -buildid=" .
+    copy tun.dll ..\InvisibleMan-TUN
+    ```
   - Run the project as administrator:
     ```
     dotnet run -port={port}
@@ -51,6 +57,7 @@ After running the service on a specific port, you need to connect to the service
 
 ## Requirements
 
+- Go https://go.dev/dl/
 - .Net https://dotnet.microsoft.com/download
 
 ## Contacts
