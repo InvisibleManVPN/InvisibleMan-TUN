@@ -47,18 +47,19 @@ namespace InvisibleManTUN.Handlers
                 listener.Bind(endPoint);
                 listener.Listen(1);
 
-                while (true)
-                {
-                    Console.WriteLine(Message.WAITING_FOR_CONNECTION);
-                    Socket clientSocket = listener.Accept();
+                Console.WriteLine(Message.WAITING_FOR_CONNECTION);
+                Socket clientSocket = listener.Accept();
 
-                    Console.WriteLine(Message.CLIENT_WAS_CONNECTED);
-                    Listen(clientSocket);
-                }
+                Console.WriteLine(Message.CLIENT_WAS_CONNECTED);
+                Listen(clientSocket);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                onStopTunneling.Invoke();
             }
 
             void Listen(Socket socket)
