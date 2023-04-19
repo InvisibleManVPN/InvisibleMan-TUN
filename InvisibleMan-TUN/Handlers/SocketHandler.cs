@@ -81,7 +81,17 @@ namespace InvisibleManTUN.Handlers
                         }
 
                         Console.WriteLine($"Receive command: '{command}'");
-                        Execute(command.Replace(Command.EOF, string.Empty));
+                        string latestCommand = FetchLatestCommand();
+                        
+                        Console.WriteLine($"Execute command: '{latestCommand}'");
+                        Execute(latestCommand);
+
+                        string FetchLatestCommand()
+                        {
+                            return latestCommand = command.Split(Command.EOF).Last(
+                                cmd => !string.IsNullOrEmpty(cmd)
+                            );
+                        }
                     }
 
                     socket.Shutdown(SocketShutdown.Both);
