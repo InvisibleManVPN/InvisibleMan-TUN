@@ -3,11 +3,13 @@ using System.Threading;
 
 namespace InvisibleManTUN.Managers
 {
+    using Core;
     using Handlers;
     using Values;
 
     public class ServiceManager
     {
+        private InvisibleManTunCore core;
         private HandlersManager handlersManager;
         private Func<int> getPort;
 
@@ -22,8 +24,13 @@ namespace InvisibleManTUN.Managers
         public void Initialize()
         {
             AvoidRunningMultipleInstances();
+
+            RegisterCore();
             RegisterHandlers();
+
             SetupHandlers();
+            SetupCore();
+
             StartService();
         }
 
@@ -37,6 +44,11 @@ namespace InvisibleManTUN.Managers
             }
         }
 
+        private void RegisterCore()
+        {
+            core = new InvisibleManTunCore();
+        }
+
         private void RegisterHandlers()
         {
             handlersManager = new HandlersManager();
@@ -48,17 +60,45 @@ namespace InvisibleManTUN.Managers
         private void SetupHandlers()
         {
             TunnelHandler tunnelHandler = handlersManager.GetHandler<TunnelHandler>();
+            SocketHandler socketHandler = handlersManager.GetHandler<SocketHandler>();
 
-            handlersManager.GetHandler<SocketHandler>().Setup(
-                getPort: getPort,
-                onStartTunneling: tunnelHandler.Start,
-                onStopTunneling: tunnelHandler.Stop
+            SetupSocketHandler();
+            SetupTunnelHandler();
+
+            void SetupSocketHandler()
+            {
+                socketHandler.Setup(
+                    getPort: getPort,
+                    onStartTunneling: tunnelHandler.Start,
+                    onStopTunneling: tunnelHandler.Stop
+                );
+            }
+
+            void SetupTunnelHandler()
+            {
+                tunnelHandler.Setup(
+                    onStopTunnel: core.StopTunnel,
+                    onStartTunnel: core.StartTunnel,
+                    onSetInterfaceAddress: core.SetInterfaceAddress,
+                    onSetInterfaceDns: core.SetInterfaceDns,
+                    onSetRoutes: core.SetRoutes,
+                    isTunnelRunning: core.IsTunnelRunning
+                );
+            }
+        }
+
+        private void SetupCore()
+        {
+            SocketHandler socketHandler = handlersManager.GetHandler<SocketHandler>();
+
+            core.Setup(
+                onStartSocket: socketHandler.Start
             );
         }
 
         private void StartService()
         {
-            handlersManager.GetHandler<SocketHandler>().Start();
+            core.Start();
         }
     }
 }

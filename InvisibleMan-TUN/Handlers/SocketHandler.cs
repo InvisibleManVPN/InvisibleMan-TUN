@@ -47,18 +47,19 @@ namespace InvisibleManTUN.Handlers
                 listener.Bind(endPoint);
                 listener.Listen(1);
 
-                while (true)
-                {
-                    Console.WriteLine(Message.WAITING_FOR_CONNECTION);
-                    Socket clientSocket = listener.Accept();
+                Console.WriteLine(Message.WAITING_FOR_CONNECTION);
+                Socket clientSocket = listener.Accept();
 
-                    Console.WriteLine(Message.CLIENT_WAS_CONNECTED);
-                    Listen(clientSocket);
-                }
+                Console.WriteLine(Message.CLIENT_WAS_CONNECTED);
+                Listen(clientSocket);
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                Console.WriteLine(exception.Message);
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                onStopTunneling.Invoke();
             }
 
             void Listen(Socket socket)
@@ -80,7 +81,17 @@ namespace InvisibleManTUN.Handlers
                         }
 
                         Console.WriteLine($"Receive command: '{command}'");
-                        Execute(command.Replace(Command.EOF, string.Empty));
+                        string latestCommand = FetchLatestCommand();
+                        
+                        Console.WriteLine($"Execute command: '{latestCommand}'");
+                        Execute(latestCommand);
+
+                        string FetchLatestCommand()
+                        {
+                            return latestCommand = command.Split(Command.EOF).Last(
+                                cmd => !string.IsNullOrEmpty(cmd)
+                            );
+                        }
                     }
 
                     socket.Shutdown(SocketShutdown.Both);
