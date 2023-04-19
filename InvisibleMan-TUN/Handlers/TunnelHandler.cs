@@ -15,6 +15,7 @@ namespace InvisibleManTUN.Handlers
         private Action<string, string> onSetInterfaceAddress;
         private Action<string, string> onSetInterfaceDns;
         private Action<string, string, string, int> onSetRoutes;
+        private Func<bool> isTunnelRunning;
 
         public TunnelHandler()
         {
@@ -26,7 +27,8 @@ namespace InvisibleManTUN.Handlers
             Action<string, string> onStartTunnel,
             Action<string, string> onSetInterfaceAddress,
             Action<string, string> onSetInterfaceDns,
-            Action<string, string, string, int> onSetRoutes
+            Action<string, string, string, int> onSetRoutes,
+            Func<bool> isTunnelRunning
         )
         {
             this.onStopTunnel = onStopTunnel;
@@ -34,13 +36,16 @@ namespace InvisibleManTUN.Handlers
             this.onSetInterfaceAddress = onSetInterfaceAddress;
             this.onSetInterfaceDns = onSetInterfaceDns;
             this.onSetRoutes = onSetRoutes;
+            this.isTunnelRunning = isTunnelRunning;
         }
 
         public void Start(string device, string proxy, string address, string server, string dns)
         {
             try
             {
-                StartTunnel();
+                if (!IsTunnelRunning())
+                    StartTunnel();
+
                 WaitUntilInterfaceCreated();
                 SetInterfaceAddress();
                 WaitUntilInterfaceAddressSet();
@@ -51,6 +56,11 @@ namespace InvisibleManTUN.Handlers
             {
                 Console.WriteLine(ex.Message);
                 return;
+            }
+
+            bool IsTunnelRunning()
+            {
+                return isTunnelRunning.Invoke();
             }
 
             void StartTunnel()

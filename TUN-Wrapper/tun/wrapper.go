@@ -2,6 +2,7 @@ package tun
 
 import (
 	"C"
+	"bytes"
 	"fmt"
 	"os/exec"
 	"syscall"
@@ -76,4 +77,20 @@ func StopTunnel() {
 	}
 
 	fmt.Println("stopping tun2socks - pid:", pid)
+}
+
+//export IsTunnelRunning
+func IsTunnelRunning() bool {
+	if cmd == nil {
+		return false
+	}
+
+	pid := cmd.Process.Pid
+	cmd := exec.Command("TASKLIST", "/FI", fmt.Sprintf("PID eq %d", pid))
+	result, err := cmd.Output()
+	if err != nil {
+		return false
+	}
+
+	return !bytes.Contains(result, []byte("No tasks are running"))
 }

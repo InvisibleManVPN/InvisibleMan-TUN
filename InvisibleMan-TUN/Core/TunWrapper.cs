@@ -22,6 +22,14 @@ namespace InvisibleManTUN.Core
             static extern void StopTunnel();
         }
 
+        public static bool IsTunnelRunning()
+        {
+            return IsTunnelRunning();
+
+            [DllImport(Path.TUN_DLL, EntryPoint = "IsTunnelRunning")]
+            static extern bool IsTunnelRunning();
+        }
+
         public static void SetInterfaceAddress(string device, string address)
         {
             SetInterfaceAddress(device, address);
