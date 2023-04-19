@@ -26,6 +26,11 @@ namespace InvisibleManTUN.Core
             TunWrapper.StopTunnel();
         }
 
+        public bool IsTunnelRunning()
+        {
+            return TunWrapper.IsTunnelRunning();
+        }
+
         public void SetInterfaceAddress(string device, string address)
         {
             TunWrapper.SetInterfaceAddress(device, address);

@@ -81,7 +81,8 @@ namespace InvisibleManTUN.Managers
                     onStartTunnel: core.StartTunnel,
                     onSetInterfaceAddress: core.SetInterfaceAddress,
                     onSetInterfaceDns: core.SetInterfaceDns,
-                    onSetRoutes: core.SetRoutes
+                    onSetRoutes: core.SetRoutes,
+                    isTunnelRunning: core.IsTunnelRunning
                 );
             }
         }
