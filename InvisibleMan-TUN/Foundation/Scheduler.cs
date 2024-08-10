@@ -22,10 +22,7 @@ namespace InvisibleManTUN.Foundation
             }
 
             if (!isConditionSatisfied)
-            {
-                Console.WriteLine(timeoutError);
-                Environment.Exit(1);
-            }
+                throw new Exception(timeoutError);
         }
     }
 }
