@@ -100,7 +100,6 @@ namespace InvisibleManTUN.Handlers
                 catch(Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    Console.WriteLine();
                 }
 
                 bool IsSocketConnected()

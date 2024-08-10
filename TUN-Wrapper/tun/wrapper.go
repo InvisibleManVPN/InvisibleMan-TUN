@@ -14,6 +14,10 @@ var cmd *exec.Cmd
 
 //export StartTunnel
 func StartTunnel(device *C.char, proxy *C.char) {
+	if IsTunnelRunning() {
+		return
+	}
+
 	args := []string{
 		"-device", C.GoString(device),
 		"-proxy", C.GoString(proxy),
