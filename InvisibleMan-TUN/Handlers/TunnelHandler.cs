@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 namespace InvisibleManTUN.Handlers
 {
     using Foundation;
+    using Handlers.Profiles;
     using Utilities;
 
     public class TunnelHandler : Handler
@@ -16,6 +17,7 @@ namespace InvisibleManTUN.Handlers
         private Action<string, string> onSetInterfaceDns;
         private Action<string, string, string, int> onSetRoutes;
         private Func<bool> isTunnelRunning;
+        private Func<IProfile> getProfile;
 
         public TunnelHandler()
         {
@@ -28,7 +30,8 @@ namespace InvisibleManTUN.Handlers
             Action<string, string> onSetInterfaceAddress,
             Action<string, string> onSetInterfaceDns,
             Action<string, string, string, int> onSetRoutes,
-            Func<bool> isTunnelRunning
+            Func<bool> isTunnelRunning,
+            Func<IProfile> getProfile
         )
         {
             this.onStopTunnel = onStopTunnel;
@@ -37,6 +40,7 @@ namespace InvisibleManTUN.Handlers
             this.onSetInterfaceDns = onSetInterfaceDns;
             this.onSetRoutes = onSetRoutes;
             this.isTunnelRunning = isTunnelRunning;
+            this.getProfile = getProfile;
         }
 
         public void Start(string device, string proxy, string address, string server, string dns)
@@ -44,7 +48,10 @@ namespace InvisibleManTUN.Handlers
             try
             {
                 if (!IsTunnelRunning())
+                {
+                    CleanupProfile();
                     StartTunnel();
+                }
 
                 WaitUntilInterfaceCreated();
                 SetInterfaceAddress();
@@ -61,6 +68,11 @@ namespace InvisibleManTUN.Handlers
             bool IsTunnelRunning()
             {
                 return isTunnelRunning.Invoke();
+            }
+
+            void CleanupProfile()
+            {
+                getProfile.Invoke().CleanupProfiles(device);
             }
 
             void StartTunnel()
