@@ -55,12 +55,14 @@ namespace InvisibleManTUN.Managers
 
             handlersManager.AddHandler(new SocketHandler());
             handlersManager.AddHandler(new TunnelHandler());
+            handlersManager.AddHandler(new ProfileHandler());
         }
 
         private void SetupHandlers()
         {
             TunnelHandler tunnelHandler = handlersManager.GetHandler<TunnelHandler>();
             SocketHandler socketHandler = handlersManager.GetHandler<SocketHandler>();
+            ProfileHandler profileHandler = handlersManager.GetHandler<ProfileHandler>();
 
             SetupSocketHandler();
             SetupTunnelHandler();
@@ -82,7 +84,8 @@ namespace InvisibleManTUN.Managers
                     onSetInterfaceAddress: core.SetInterfaceAddress,
                     onSetInterfaceDns: core.SetInterfaceDns,
                     onSetRoutes: core.SetRoutes,
-                    isTunnelRunning: core.IsTunnelRunning
+                    isTunnelRunning: core.IsTunnelRunning,
+                    getProfile: profileHandler.GetProfile
                 );
             }
         }
