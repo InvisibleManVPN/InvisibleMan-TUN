@@ -8,7 +8,7 @@
     <Product>InvisibleMan-TUN</Product>
     <PackageId>InvisibleMan-TUN</PackageId>
     <Company>Invisible Man</Company>
-    <Copyright>Copyright (C) 2023 Invisible Man</Copyright>
+    <Copyright>Copyright (C) 2024 Invisible Man</Copyright>
     <Version>0.3.4.0</Version>
     <AssemblyVersion>0.3.4.0</AssemblyVersion>
     <ApplicationManifest>App.manifest</ApplicationManifest>
